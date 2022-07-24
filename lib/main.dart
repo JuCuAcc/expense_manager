@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/models/transaction.dart';
+import 'models/transaction.dart';
 import './widgets/new_transaction.dart';
-
+import './widgets/chart.dart';
 import './widgets/transaction_list.dart' ;
-import './models/transaction.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   final List<Transaction> _userTransactions = [
-    Transaction(
+/*    Transaction(
       id: 't1',
       title: 'The Checklist Manifesto',
       amount: 17.01,
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Jashim Vila',
       amount: 10.99,
       date: DateTime.now(),
-    ),
+    ),*/
   ];
 
 
@@ -130,14 +130,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.greenAccent,
                 child: Container(
                   width: double.infinity,
-                  child: Text(
+                  /*child: Text(
                     'Chart!!',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: Colors.purple,
                     ),
-                  ),
+                  ),*/
+                  child: Chart(_userTransactions),
                 ),
                 elevation: 5,
               ),
