@@ -28,7 +28,7 @@ class Chart extends StatelessWidget {
       }
     };
 
-/*    print(DateFormat.E(weekDay));
+    /*print(DateFormat.E(weekDay));
     print(totalSum);*/
 
     return {

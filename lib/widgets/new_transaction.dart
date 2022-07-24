@@ -65,7 +65,8 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             /// TextField(),
             SizedBox(
-              height: 50,
+              /// height: 50,
+              height: 100,
               width: 200,
 
               child: FlatButton(child: Text('Add Transaction'),
