@@ -26,13 +26,41 @@ class TransactionList extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/waiting.png',
                   fit: BoxFit.cover,
-                )),
-
+                )
+            ),
           ],
         ) : ListView.builder(
           itemBuilder: (ctx, index) {
 
+            /// return ListTile(leading: CircleAvatar(radius: 30, child: Text('\$${}'),),);
             return Card(
+                elevation: 5,
+                margin: EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 5,
+              ),
+              child: ListTile(
+                leading: CircleAvatar(
+                radius: 30, 
+                child: Padding(
+                  padding: EdgeInsets.all(6),
+                  child: FittedBox(
+                    child: Text('৳${transactions[index].amount}'
+                    ),
+                  ),
+                ),
+              ),
+                title: Text(transactions[index].title,
+                  style: Theme.of(context).textTheme.headline6,),
+                subtitle: Text(
+                   DateFormat.yMMMd().format(transactions[index].date),
+                ),
+                
+              ),
+            );
+
+
+            /*return Card(
               child: Row(
                 children: <Widget>[
                   Container(
@@ -63,11 +91,11 @@ class TransactionList extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         transactions[index].title,
-                        /*style: TextStyle(
+                        *//*style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                           color: Colors.blue,
-                        ),*/
+                        ),*//*
                         /// style: Theme.of(context).textTheme.titleLarge,
                         style: Theme.of(context).textTheme.headline6,
                       ),
@@ -83,7 +111,7 @@ class TransactionList extends StatelessWidget {
                   ),
                 ],
               ),
-            );
+            );*/
 
           },
           itemCount: transactions.length ,
