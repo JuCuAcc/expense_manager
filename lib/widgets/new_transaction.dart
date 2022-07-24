@@ -116,7 +116,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
             SizedBox(
               /// height: 50,
-              height: 100,
+              height: 50,
               width: 200,
 
               /// child: FlatButton(

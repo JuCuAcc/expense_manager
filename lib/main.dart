@@ -7,6 +7,20 @@ import './widgets/transaction_list.dart' ;
 
 void main() => runApp(MyApp());
 
+/*Future main() async {
+ WidgetsFlutterBinding.ensureInitialized();
+
+ /// Keep Splash Screen until initialization has completed!
+ FlutterNativeSplash.removeAfter(initialization);
+ 
+  runApp(MyApp());
+}
+
+Future initialization(BuildContext ? context) async {
+  /// Load resources
+  await Future.delayed(Duration(seconds: 3));
+}*/
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,6 +33,8 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.green,
         /// primaryColor: Colors.green,
         backgroundColor: Colors.greenAccent,
+
+        /// errorColor: Colors.red,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
           headline6: TextStyle(
@@ -109,6 +125,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id,
+      );
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 elevation: 5,
               ),
             ),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),

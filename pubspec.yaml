@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.17.0
+  flutter_native_splash: ^2.2.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -32,6 +33,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+
+flutter_native_splash:
+  color: "#fcb42" # white color changed
+  background_image: assets/images/lb.png
+  image: assets/images/loading-load.png
+  # image: assets/images/loading-load.gif
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
