@@ -10,117 +10,113 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 450,
-        child:  transactions.isEmpty ? Column(
-          children: <Widget>[
-            Text('No Transactions Added Yet!',
-              style: Theme.of(context).textTheme.headline6, /// title = headline6
-            ),
+    return transactions.isEmpty ? Column(
+      children: <Widget>[
+        Text('No Transactions Added Yet!',
+          style: Theme.of(context).textTheme.headline6, /// title = headline6
+        ),
 
-            SizedBox(
-              height: 20,
-            ),
+        SizedBox(
+          height: 20,
+        ),
 
-            Container(
-              height: 200,
-                child: Image.asset(
-                  'assets/images/waiting.png',
-                  fit: BoxFit.cover,
-                )
-            ),
-          ],
-        ) : ListView.builder(
-          itemBuilder: (ctx, index) {
+        Container(
+          height: 200,
+            child: Image.asset(
+              'assets/images/waiting.png',
+              fit: BoxFit.cover,
+            )
+        ),
+      ],
+    ) : ListView.builder(
+      itemBuilder: (ctx, index) {
 
-            /// return ListTile(leading: CircleAvatar(radius: 30, child: Text('\$${}'),),);
-            return Card(
-                elevation: 5,
+        /// return ListTile(leading: CircleAvatar(radius: 30, child: Text('\$${}'),),);
+        return Card(
+            elevation: 5,
+            margin: EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 5,
+          ),
+          child: ListTile(
+            leading: CircleAvatar(
+            radius: 30,
+            child: Padding(
+              padding: EdgeInsets.all(6),
+              child: FittedBox(
+                child: Text('৳${transactions[index].amount}'
+                ),
+              ),
+            ),
+          ),
+            title: Text(transactions[index].title,
+              style: Theme.of(context).textTheme.headline6,),
+            subtitle: Text(
+               DateFormat.yMMMd().format(transactions[index].date),
+            ),
+            trailing: IconButton(icon: Icon(Icons.delete),
+            color: Theme.of(context).errorColor,
+              onPressed: () => deleteTx(transactions[index].id) ,
+            ),
+          ),
+        );
+
+
+        /*return Card(
+          child: Row(
+            children: <Widget>[
+              Container(
                 margin: EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 5,
-              ),
-              child: ListTile(
-                leading: CircleAvatar(
-                radius: 30, 
-                child: Padding(
-                  padding: EdgeInsets.all(6),
-                  child: FittedBox(
-                    child: Text('৳${transactions[index].amount}'
-                    ),
+                  /// Not showing intellisense
+                  vertical: 10,
+                  horizontal: 15,
+                ),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).primaryColor,
+                      width: 2,
+                    )),
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  /// '\$${tx.amount}',
+                  '৳ ${transactions[index].amount.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    /// color: Colors.purple,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ),
-                title: Text(transactions[index].title,
-                  style: Theme.of(context).textTheme.headline6,),
-                subtitle: Text(
-                   DateFormat.yMMMd().format(transactions[index].date),
-                ),
-                trailing: IconButton(icon: Icon(Icons.delete),
-                color: Theme.of(context).errorColor,
-                  onPressed: () => deleteTx(transactions[index].id) ,
-                ),
-              ),
-            );
-
-
-            /*return Card(
-              child: Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      /// Not showing intellisense
-                      vertical: 10,
-                      horizontal: 15,
-                    ),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                          width: 2,
-                        )),
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      /// '\$${tx.amount}',
-                      '৳ ${transactions[index].amount.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        /// color: Colors.purple,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+                  Text(
+                    transactions[index].title,
+                    *//*style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.blue,
+                    ),*//*
+                    /// style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        transactions[index].title,
-                        *//*style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.blue,
-                        ),*//*
-                        /// style: Theme.of(context).textTheme.titleLarge,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      Text(
-                        DateFormat.yMMMd().format(transactions[index].date),
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    DateFormat.yMMMd().format(transactions[index].date),
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15,
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               ),
-            );*/
+            ],
+          ),
+        );*/
 
-          },
-          itemCount: transactions.length ,
-        ),
-
+      },
+      itemCount: transactions.length ,
     );
   }
 }
