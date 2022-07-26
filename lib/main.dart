@@ -1,21 +1,23 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 /// import 'package:flutter/services.dart';
 import 'models/transaction.dart';
 import './widgets/new_transaction.dart';
 import './widgets/chart.dart';
-import './widgets/transaction_list.dart' ;
-
+import './widgets/transaction_list.dart';
 
 /// void main() => runApp(MyApp());
 void main() {
-
   /// WidgetsFlutterBinding.ensureInitialized();
 
-    /*SystemChrome.setPreferredOrientations([
+  /*SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);*/
-    runApp(MyApp());
+  runApp(MyApp());
 }
 
 /*Future main() async {
@@ -23,7 +25,7 @@ void main() {
 
  /// Keep Splash Screen until initialization has completed!
  FlutterNativeSplash.removeAfter(initialization);
- 
+
   runApp(MyApp());
 }
 
@@ -39,30 +41,34 @@ class MyApp extends StatelessWidget {
       title: 'Expense Manager',
       theme: ThemeData(
         /// primarySwatch: Colors.green ,
-        primarySwatch: Colors.purple ,
+        primarySwatch: Colors.purple,
+
         /// accentColor: Colors.amber,
         accentColor: Colors.green,
+
         /// primaryColor: Colors.green,
         backgroundColor: Colors.greenAccent,
 
         /// errorColor: Colors.red,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-          headline6: TextStyle(
-            fontFamily: 'OpenSans',
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-          button: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        appBarTheme: AppBarTheme(textTheme: ThemeData.light().textTheme.copyWith(
-          headline6: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-          ), ),
+              headline6: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              button: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
         ),
       ),
       debugShowCheckedModeBanner: false,
@@ -72,7 +78,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -84,9 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
   /*final titleController = TextEditingController();
   final amountController = TextEditingController();*/
 
-
   final List<Transaction> _userTransactions = [
-/*    Transaction(
+  /* Transaction(
       id: 't1',
       title: 'The Checklist Manifesto',
       amount: 17.01,
@@ -103,10 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Jashim Vila',
       amount: 10.99,
       date: DateTime.now(),
-    ),*/
+    ), */
   ];
 
-    bool _showChart = false;
+  bool _showChart = false;
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
@@ -118,10 +122,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount, DateTime chosenDate){
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
       title: txTitle,
       amount: txAmount,
+
       /// date: DateTime.now(),
       date: chosenDate,
       id: DateTime.now().toString(),
@@ -132,110 +138,144 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-
-
-  void _startAddNewTransaction(BuildContext ctx){
+  void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
       builder: (_) {
-      return  GestureDetector(
+        return GestureDetector(
           onTap: () {},
           child: NewTransaction(_addNewTransaction),
           behavior: HitTestBehavior.opaque,
-      );
-    },
+        );
+      },
     );
   }
 
   void _deleteTransaction(String id) {
     setState(() {
-      _userTransactions.removeWhere((tx) => tx.id == id,
+      _userTransactions.removeWhere(
+        (tx) => tx.id == id,
       );
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final appBar = AppBar(
-      /// title: Text('Expense Manager', style: TextStyle(fontFamily: 'Open Sans'),),
-      title: Text('Expense Manager'),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () => _startAddNewTransaction(context),
-        ),
-      ],
-    );
+    final PreferredSizeWidget appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text(
+              'Expense Manager',
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () => _startAddNewTransaction(context),
+                ),
+              ],
+            ),
+          )
+        : AppBar(
+            /// title: Text('Expense Manager', style: TextStyle(fontFamily: 'Open Sans'),),
+            title: Text('Expense Manager'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => _startAddNewTransaction(context),
+              ),
+            ],
+          );
+
+
 
     final txListWidget = Container(
       height: (mediaQuery.size.height -
-          appBar.preferredSize.height -
-          mediaQuery.padding.top) *  /// error
+              appBar.preferredSize.height -
+              mediaQuery.padding.top) *
+
+          /// error
           0.7,
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          /// mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+    print(appBar.preferredSize.height);
 
-          children: <Widget>[
-            /// isLandscape ? Row(
-            if (isLandscape) Row(
+    final pageBody = SafeArea(
+        child: SingleChildScrollView(
+      child: Column(
+        /// mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+
+        children: <Widget>[
+          /// isLandscape ? Row(
+          if (isLandscape)
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Show Chart'),
-                Switch(
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
+                Text(
+                  'Show Chart',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                Switch.adaptive(
+                  activeColor: Theme.of(context).accentColor,
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  },
                 ),
               ],
             ),
 
-           if(!isLandscape) Container(
-               height: (mediaQuery.size.height -
-                   appBar.preferredSize.height -
-                    mediaQuery.padding.top) *
-                   0.3,
-               /// child: Chart(_userTransactions)
-               child: Chart(_recentTransactions)
-           ),
+          if (!isLandscape)
+            Container(
+                height: (mediaQuery.size.height -
+                        appBar.preferredSize.height -
+                        mediaQuery.padding.top) *
+                    0.3,
 
-            if(!isLandscape) txListWidget,
-
-            if(isLandscape) _showChart
-               ? Container(
-              height: (mediaQuery.size.height -
-                  appBar.preferredSize.height -
-                  mediaQuery.padding.top) *
-                  0.7,
                 /// child: Chart(_userTransactions)
-                child: Chart(_recentTransactions)
-            ) : txListWidget
-          ],
-        ),
+                child: Chart(_recentTransactions)),
+
+          if (!isLandscape) txListWidget,
+
+          if (isLandscape)
+            _showChart
+                ? Container(
+                    height: (mediaQuery.size.height -
+                            appBar.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        0.7,
+
+                    /// child: Chart(_userTransactions)
+                    child: Chart(_recentTransactions))
+                : txListWidget
+        ],
       ),
+    ));
 
-
-      resizeToAvoidBottomInset: false,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed:() => _startAddNewTransaction(context),
-      ),
-
-    );
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: pageBody,
+            navigationBar: appBar,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: pageBody,
+            resizeToAvoidBottomInset: false,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () => _startAddNewTransaction(context),
+                  ),
+          );
   }
 }
