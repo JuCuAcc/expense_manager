@@ -36,46 +36,50 @@ class TransactionList extends StatelessWidget {
       itemBuilder: (ctx, index) {
 
         /// return ListTile(leading: CircleAvatar(radius: 30, child: Text('\$${}'),),);
-        return Card(
-            elevation: 5,
-            margin: EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 5,
-          ),
-          child: ListTile(
-            leading: CircleAvatar(
-            radius: 30,
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: FittedBox(
-                child: Text('৳${transactions[index].amount}'
-                ),
-              ),
-            ),
-          ),
-            title: Text(transactions[index].title,
-              style: Theme.of(context).textTheme.headline6,),
-            subtitle: Text(
-               DateFormat.yMMMd().format(transactions[index].date),
-            ),
-            trailing: MediaQuery.of(context).size.width > 360
-                ? FlatButton.icon(
-                    icon: const Icon(Icons.delete),
-                    label: const Text('Delete'),
-                    /// text: Theme.of(context).errorColor,
-                    textColor: Theme.of(context).errorColor,
-                    onPressed: () => deleteTx(transactions[index].id) ,
-
-            )
-                : IconButton(
-              icon: const Icon(Icons.delete),
-              color: Theme.of(context).errorColor,
-              onPressed: () => deleteTx(transactions[index].id) ,
-            ),
-          ),
-        );
+        return TransactionItem(index, context);
       },
       itemCount: transactions.length ,
     );
+  }
+
+  Card TransactionItem(int index, BuildContext context) {
+    return Card(
+          elevation: 5,
+          margin: EdgeInsets.symmetric(
+          vertical: 8,
+          horizontal: 5,
+        ),
+        child: ListTile(
+          leading: CircleAvatar(
+          radius: 30,
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: FittedBox(
+              child: Text('৳${transactions[index].amount}'
+              ),
+            ),
+          ),
+        ),
+          title: Text(transactions[index].title,
+            style: Theme.of(context).textTheme.headline6,),
+          subtitle: Text(
+             DateFormat.yMMMd().format(transactions[index].date),
+          ),
+          trailing: MediaQuery.of(context).size.width > 360
+              ? FlatButton.icon(
+                  icon: const Icon(Icons.delete),
+                  label: const Text('Delete'),
+                  /// text: Theme.of(context).errorColor,
+                  textColor: Theme.of(context).errorColor,
+                  onPressed: () => deleteTx(transactions[index].id) ,
+
+          )
+              : IconButton(
+            icon: const Icon(Icons.delete),
+            color: Theme.of(context).errorColor,
+            onPressed: () => deleteTx(transactions[index].id) ,
+          ),
+        ),
+      );
   }
 }

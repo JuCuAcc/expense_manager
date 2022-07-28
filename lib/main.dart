@@ -20,19 +20,6 @@ void main() {
   runApp(MyApp());
 }
 
-/*Future main() async {
- WidgetsFlutterBinding.ensureInitialized();
-
- /// Keep Splash Screen until initialization has completed!
- FlutterNativeSplash.removeAfter(initialization);
-
-  runApp(MyApp());
-}
-
-Future initialization(BuildContext ? context) async {
-  /// Load resources
-  await Future.delayed(Duration(seconds: 3));
-}*/
 
 class MyApp extends StatelessWidget {
   @override
@@ -159,8 +146,54 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
+  Widget _buildLandscapeContext() {
+
+  return             Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+      Text(
+        'Show Chart',
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      Switch.adaptive(
+        activeColor: Theme.of(context).accentColor,
+        value: _showChart,
+        onChanged: (val) {
+          setState(() {
+            _showChart = val;
+          });
+        },
+      ),
+    ],
+  );
+
+  }
+  
+  List<Widget> _buildPortraitContext(
+      MediaQueryData mediaQuery,
+      AppBar appBar,
+      Widget txListWidget,
+      ) {
+    return [Container(
+        height: (mediaQuery.size.height -
+            appBar.preferredSize.height -
+            mediaQuery.padding.top) *
+            0.3,
+
+        /// child: Chart(_userTransactions)
+        child: Chart(_recentTransactions),
+    ), txListWidget,];
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
+    
+    print('build() MyHomePageState');
+    
     final mediaQuery = MediaQuery.of(context);
 
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
@@ -212,37 +245,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
         children: <Widget>[
           /// isLandscape ? Row(
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Show Chart',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                Switch.adaptive(
-                  activeColor: Theme.of(context).accentColor,
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                ),
-              ],
-            ),
+          if (isLandscape) _buildLandscapeContext(),
+
 
           if (!isLandscape)
-            Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    0.3,
+           ... _buildPortraitContext(   /// Spread Operator
+            mediaQuery,
+            appBar,
+            txListWidget
+          ),
 
-                /// child: Chart(_userTransactions)
-                child: Chart(_recentTransactions)),
-
-          if (!isLandscape) txListWidget,
 
           if (isLandscape)
             _showChart
