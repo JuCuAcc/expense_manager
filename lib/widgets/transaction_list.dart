@@ -74,61 +74,6 @@ class TransactionList extends StatelessWidget {
             ),
           ),
         );
-
-
-        /*return Card(
-          child: Row(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.symmetric(
-                  /// Not showing intellisense
-                  vertical: 10,
-                  horizontal: 15,
-                ),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).primaryColor,
-                      width: 2,
-                    )),
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  /// '\$${tx.amount}',
-                  '৳ ${transactions[index].amount.toStringAsFixed(2)}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    /// color: Colors.purple,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    transactions[index].title,
-                    *//*style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.blue,
-                    ),*//*
-                    /// style: Theme.of(context).textTheme.titleLarge,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Text(
-                    DateFormat.yMMMd().format(transactions[index].date),
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 15,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );*/
-
       },
       itemCount: transactions.length ,
     );
