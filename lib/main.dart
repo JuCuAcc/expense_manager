@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-/// import 'package:flutter/services.dart';
+
 import 'models/transaction.dart';
 import './widgets/new_transaction.dart';
 import './widgets/chart.dart';
@@ -29,13 +29,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         /// primarySwatch: Colors.green ,
         primarySwatch: Colors.purple,
-
         /// accentColor: Colors.amber,
         accentColor: Colors.green,
-
         /// primaryColor: Colors.green,
         backgroundColor: Colors.greenAccent,
-
         /// errorColor: Colors.red,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
@@ -147,9 +144,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-  Widget _buildLandscapeContext() {
+  List<Widget> _buildLandscapeContext(
+      MediaQueryData mediaQuery,
+      AppBar appBar,
+      Widget txListWidget,
+      ) {
 
-  return             Row(
+  return [Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
       Text(
@@ -166,7 +167,16 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
     ],
-  );
+  ),             _showChart
+      ? Container(
+      height: (mediaQuery.size.height -
+          appBar.preferredSize.height -
+          mediaQuery.padding.top) *
+          0.7,
+
+      /// child: Chart(_userTransactions)
+      child: Chart(_recentTransactions))
+      : txListWidget];
 
   }
   
@@ -241,13 +251,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: SingleChildScrollView(
       child: Column(
         /// mainAxisAlignment: MainAxisAlignment.start,
+
         crossAxisAlignment: CrossAxisAlignment.center,
-
         children: <Widget>[
-          /// isLandscape ? Row(
-          if (isLandscape) _buildLandscapeContext(),
-
-
+          if (isLandscape)
+            ..._buildLandscapeContext(
+              mediaQuery,
+              appBar,
+              txListWidget
+          ),
           if (!isLandscape)
            ... _buildPortraitContext(   /// Spread Operator
             mediaQuery,
@@ -255,18 +267,6 @@ class _MyHomePageState extends State<MyHomePage> {
             txListWidget
           ),
 
-
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.7,
-
-                    /// child: Chart(_userTransactions)
-                    child: Chart(_recentTransactions))
-                : txListWidget
         ],
       ),
     ));
