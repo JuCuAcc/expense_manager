@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -66,7 +67,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
   /// String titleInput;
   /// String amountInput;
 
@@ -74,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final amountController = TextEditingController();*/
 
   final List<Transaction> _userTransactions = [
-  /* Transaction(
+   /*Transaction(
       id: 't1',
       title: 'The Checklist Manifesto',
       amount: 17.01,
@@ -94,7 +95,34 @@ class _MyHomePageState extends State<MyHomePage> {
     ), */
   ];
 
+  /*toJsonSchema(){
+    print(jsonEncode(_userTransactions));
+  }*/
+  
+  
+  
+
   bool _showChart = false;
+
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    /// toJsonSchema();
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+
+  @override
+  dispose(){
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
